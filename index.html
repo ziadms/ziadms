@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قلوب تتساقط وزر</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            animation: backgroundChange 15s infinite alternate;
+        }
+
+        @keyframes backgroundChange {
+            0% { background: linear-gradient(135deg, #ff9a9e, #fad0c4); }
+            50% { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+            100% { background: linear-gradient(135deg, #ffafbd, #ffc3a0); }
+        }
+
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            animation: fall 7s infinite ease-in-out;
+            opacity: 0.9;
+            transform: rotate(0deg);
+            filter: brightness(1.2);
+        }
+
+        @keyframes fall {
+            0% {
+                top: -10%;
+                opacity: 0;
+                transform: translateX(0) rotate(0deg) scale(0.8);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                top: 100%;
+                transform: translateX(50px) rotate(360deg) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .button {
+            position: absolute;
+            z-index: 10;
+            padding: 20px 40px;
+            background-color: #d11c1c;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: box-shadow 0.3s, background-color 0.3s;
+        }
+
+        .button:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            background-color: #b91515;
+        }
+
+        .message {
+            font-size: 28px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            position: absolute;
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease, transform 1s ease; /* تعديل زمن التلاشي */
+        }
+
+        .message.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .final-button {
+            display: none;
+            padding: 20px 40px;
+            background-color: #d11c1c;
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .final-button:hover {
+            background-color: #b91515;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="button" id="myButton">دوسي تاني يحبيبتي</button>
+    <div class="message" id="myMessage"></div>
+    <button class="final-button" id="finalButton">دوسي هنا يقلب بالزوز</button>
+    <button class="button" id="playButton">دوسي هنا يقلبي❤</button>
+
+    <audio id="background-music" loop>
+        <source src="بحبك.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        const music = document.getElementById('background-music');
+        const playButton = document.getElementById('playButton');
+        const finalButton = document.getElementById('finalButton');
+        const button = document.getElementById('myButton');
+        const messageDiv = document.getElementById('myMessage');
+
+        // إضافة حدث الضغط على زر "دوسي هنا قلبي"
+        finalButton.addEventListener('click', function() {
+            window.location.href = 'https://www.instagram.com/ziadmohamedsaid1/'; // تحويل إلى رابط إنستجرام
+        });
+
+        playButton.addEventListener('click', function() {
+            music.play().catch(error => {
+                console.error('خطأ في تشغيل الموسيقى:', error);
+            });
+            playButton.style.display = 'none'; // إخفاء زر التشغيل بعد الضغط عليه
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 5 + 's';
+            heart.innerHTML = ` 
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve"> 
+                    <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)"> 
+                        <path d="M 45 10.715 c 4.77 -4.857 11.36 -7.861 18.64 -7.861 C 78.198 2.854 90 14.87 90 29.694 c 0 35.292 -36.812 34.15 -45 57.453 C 36.812 63.843 0 64.986 0 29.694 C 0 14.87 11.802 2.854 26.36 2.854 C 33.64 2.854 40.23 5.858 45 10.715 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: rgb(211,28,28); fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" /> 
+                    </g> 
+                </svg> 
+            `;
+            document.body.appendChild(heart);
+            setTimeout(() => {
+                heart.remove();
+            }, 7000); // إزالة القلب بعد 7 ثواني
+        }
+
+        function generateHearts() {
+            setInterval(createHeart, 800); // خلق قلوب جديدة كل 800 مللي ثانية
+        }
+
+        generateHearts();
+
+        let messages = [
+            "أنا بحبك أوي يحبيبه ❤️",
+            "مستحيل أكون قاسي عليكي بعد كدا، إنتِ زهره في بستان قلبي 🌹.",
+            "أنتِ عارفة إنك بتحلي كل حاجة في حياتي حتى لو كنت زعلان 😔.",
+            "كل لحظة معاك كانت سبب سعادتي، وأنا عايز أكون جنبك دايمًا .",
+            "لا أقدر أستغنى عنك ولا أقدر أعيش يوم من غير ما أسمع صوتك .",
+            "أنا بقولك إنتِ حبيبتي، ونفسي أقولك إني بحبك لآخر عمري 💖.",
+            "محتاجك تكوني معايا في كل تفاصيل حياتي، علشان بحس معاك بالأمان .",
+            "لما بشوفك بحس أني في الجنة، وكل حاجة في حياتي بتضحكلي .",
+            "كل يوم بيفوت عليا بعيد عنك، بحس أني بعيش في كابوس 😢.",
+            "أنا عايز أقولك إنك أغلى حاجة عندي، وبحبك أوي 💞.",
+            "إنتِ الفرحة في حياتي، وأنا حاسس أني عايز أعيش معاك للأبد .",
+            "أنتِ الكلمة اللي في قلبي .",
+            "أنتِ سبب سعادتي، وما فيش حاجة في الدنيا تخليني أسيبك .",
+            "كل ما أقول إنك أجمل من كل البنات، بكتشف إنك أكتر من كدا .",
+            "معاك بحس بأمان، وأحب أسمع صوتك كل يوم .",
+            "مفيش حد في العالم يشبهك، أنتِ فريدة من نوعك 🌍.",
+            "أنتِ القمر في ليلي، ونور حياتي، وبحبك لدرجة متتوصفش .",
+            "ممكن تعيشي معايا في أحلامي، وأنا هكون سعيد طول عمري .",
+            "أنتِ معايا كل ثانية، وكل لحظة بنحب بعض عندي بالدنيا كلها 💑.",
+            "أنتِ كل حاجه في حياتي 💕.",
+            "وأنا بحبك وبقولك أنا جنبك دايمًا 🤗.",
+            "مستني أقولك كلمة بحبك، علشان أكون مرتاح .",
+            "قلبي معاك في كل لحظة، ولا أقدر أعيش من غيرك ❤️.",
+            "أنتِ أحلى ما حصل في حياتي 😍.",
+            "أنتِ حياتي، وإنتِ نور عيني، بحبك .",
+            "أنا عايز أقولك حاجة مهمة، وأنتِ لازم تسمعيها .",
+            "أنتِ البنت الوحيدة اللي في قلبي، ومفيش حد غيرك 💖.",
+            "أحب أقولك إنك أجمل من أي حد، وأحبك من كل قلبي 🥹.",
+            "أنا عايزك تعرفي إنك أجمل هدية من ربنا، وأنا محظوظ بيكي .",
+            "أنتِ الهدية اللي بتخليني أفرح في حياتي .",
+            "عمرينا ما هنزعل من بعض تاني حتى لو حصل أي شيء كبير نحلوا سوا .",
+            "هتتحولي لصفحة تانية يقلبي اكتبي الي انتي عيزاه هيوصلني 🥺❤️"
+        ];
+
+        let messageIndex = 0;
+
+        function showMessage() {
+            if (messageIndex < messages.length) {
+                messageDiv.textContent = messages[messageIndex];
+                messageDiv.classList.add('visible');
+                setTimeout(() => {
+                    messageDiv.classList.remove('visible');
+                    messageIndex++;
+                    setTimeout(showMessage, 500); // استدعاء الدالة مرة أخرى بعد تأخير
+                }, 3000); // عرض كل رسالة لمدة 3 ثواني
+            } else {
+                // بعد عرض كل الرسائل، الانتقال إلى index2.html
+                setTimeout(() => {
+                    window.location.href = 'index2.html'; // الانتقال تلقائياً
+                }, 2000); // تأخير 2 ثانية قبل الانتقال
+            }
+        }
+
+        button.addEventListener('click', function() {
+            button.style.display = 'none'; // إخفاء الزر
+            showMessage(); // بدء عرض الرسائل
+        });
+    </script>
+</body>
+</html>
